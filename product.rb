@@ -28,6 +28,6 @@ end
 banana = Product.new("banana", 0.57, "exempt")
 candy = Product.new("candy", 1.50, "full")
 book = Product.new("book", 18.00, "redux")
-puts banana.full_price
-puts candy.full_price
-puts book.full_price
+puts banana.full_price.round(2)
+puts candy.full_price.round(2)
+puts book.full_price.round(2)

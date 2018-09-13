@@ -13,12 +13,6 @@ class Shopping_cart
   @@shopping_cart = []
 
 
-  def initialize
-    @base_price = base_price
-    @full_price = full_price
-  end
-
-
   def add_product(name, base_price, category)
     new_product = Product.new(name, base_price, category)
     @@shopping_cart << new_product
@@ -35,7 +29,7 @@ class Shopping_cart
       # puts product.base_price
       total_cost_before_tax += product.base_price
     end
-      return total_cost_before_tax
+      return total_cost_before_tax.round(2)
   end
 
   def self.total_cost_after_tax
@@ -44,19 +38,11 @@ class Shopping_cart
       # puts product.full_price
         total_cost_after_tax += product.full_price
     end
-    return total_cost_after_tax
+    return total_cost_after_tax.round(2)
   end
 
   def self.contains
     @@shopping_cart
-  end
-  
-  def full_price
-    @full_price
-  end
-
-  def base_price
-    @base_price
   end
 
 end
@@ -73,7 +59,7 @@ book = new_shopping_cart.add_product("book", 18.00, "redux")
 puts "Shopping cart contains:"
 puts Shopping_cart.contains.inspect
 
-Shopping_cart.delete_product(banana)
+Shopping_cart.delete_product(banana) #question: can I use banana.delete_product
 puts "Shopping cart after delete contains:"
 puts Shopping_cart.contains.inspect
 
