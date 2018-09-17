@@ -7,36 +7,34 @@
 require "pry"
 require_relative("product")
 
-
-class Shopping_cart
+class ShoppingCart
 
   @@shopping_cart = []
 
-
-  def add_product(name, base_price, category)
-    new_product = Product.new(name, base_price, category)
+  def add_product(name, base_price, quantity, category)
+    new_product = Product.new(name, base_price, quantity, category)
     @@shopping_cart << new_product
     return new_product
   end
 
   def self.delete_product(product)
-      @@shopping_cart.delete(product)
+    @@shopping_cart.delete(product)
   end
 
+  # Incuding Stretch 2: associate quantity
   def self.total_cost_before_tax
     total_cost_before_tax = 0
     @@shopping_cart.each do |product|
-      # puts product.base_price
-      total_cost_before_tax += product.base_price
+      total_cost_before_tax += product.base_price * product.quantity
     end
-      return total_cost_before_tax.round(2)
+    return total_cost_before_tax.round(2)
   end
 
+  # Incuding Stretch 2: associate quantity
   def self.total_cost_after_tax
     total_cost_after_tax = 0
     @@shopping_cart.each do |product|
-      # puts product.full_price
-        total_cost_after_tax += product.full_price
+      total_cost_after_tax += product.full_price * product.quantity
     end
     return total_cost_after_tax.round(2)
   end
@@ -45,26 +43,42 @@ class Shopping_cart
     @@shopping_cart
   end
 
+  # Stretch 1. Add the ability to find the most expensive product in a cart.
+  def self.most_expensive_product
+    max_price = 0
+    max_price_product = ""
+    ShoppingCart.contains.each do |product|
+      if max_price < product.full_price
+        max_price = product.full_price.round(2)
+        max_price_product = product.name
+      end
+    end
+    puts "The most expensive product is *#{max_price_product}* and its price is #{max_price} tax included."
+  end
+
 end
 
 # banana = Product.new("banana", 0.57, "exempt")
 # candy = Producst.new("candy", 1.50, "full")
 # book = Product.new("book", 18.00, "redux")
 
-new_shopping_cart = Shopping_cart.new
+new_shopping_cart = ShoppingCart.new
 
-banana = new_shopping_cart.add_product("banana", 0.57, "exempt")
-candy = new_shopping_cart.add_product("candy", 1.50, "full")
-book = new_shopping_cart.add_product("book", 18.00, "redux")
+banana = new_shopping_cart.add_product("banana", 0.57, 3, "exempt")
+candy = new_shopping_cart.add_product("candy", 1.50, 5, "full")
+book = new_shopping_cart.add_product("book", 18.00, 2, "redux")
 puts "Shopping cart contains:"
-puts Shopping_cart.contains.inspect
+puts ShoppingCart.contains.inspect
 
-Shopping_cart.delete_product(banana) #question: can I use banana.delete_product
+ShoppingCart.delete_product(banana)
 puts "Shopping cart after delete contains:"
-puts Shopping_cart.contains.inspect
+puts ShoppingCart.contains.inspect
 
 puts "total_cost_before_tax:"
-puts Shopping_cart.total_cost_before_tax
+puts ShoppingCart.total_cost_before_tax
 
 puts "total_cost_after_tax:"
-puts Shopping_cart.total_cost_after_tax
+puts ShoppingCart.total_cost_after_tax
+
+puts "Stretch1: max price and product:"
+puts ShoppingCart.most_expensive_product

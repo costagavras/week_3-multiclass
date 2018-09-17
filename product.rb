@@ -2,9 +2,11 @@
 # and tax rate.
 class Product
 
-  def initialize(name, base_price, category)
+  def initialize(name, base_price, quantity, category)
     @name = name
     @base_price = base_price
+    @quantity = quantity
+    # Stretch #3. tax classification system
     if category == "full"
       @sales_tax = 0.15
     elsif category == "redux"
@@ -12,7 +14,6 @@ class Product
     elsif category == "exempt"
       @sales_tax = 0
     end
-    @full_price = @base_price * (1 + @sales_tax)
   end
 
   def full_price
@@ -23,11 +24,20 @@ class Product
     @base_price
   end
 
+  def name
+    @name
+  end
+
+  # Stretch 2. Associate quantity
+  def quantity
+    @quantity
+  end
+
 end
 
-banana = Product.new("banana", 0.57, "exempt")
-candy = Product.new("candy", 1.50, "full")
-book = Product.new("book", 18.00, "redux")
-puts banana.full_price.round(2)
-puts candy.full_price.round(2)
-puts book.full_price.round(2)
+# banana = Product.new("banana", 0.57, "exempt")
+# candy = Product.new("candy", 1.50, "full")
+# book = Product.new("book", 18.00, "redux")
+# puts banana.full_price.round(2)
+# puts candy.full_price.round(2)
+# puts book.full_price.round(2)
